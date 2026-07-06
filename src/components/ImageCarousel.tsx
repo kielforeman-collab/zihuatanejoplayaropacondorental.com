@@ -7,6 +7,7 @@ interface Slide {
 }
 
 const slides: Slide[] = [
+  { url: '/images/4. Welcome to Casa OM.webp', caption: 'Welcome to Casa OM del Sur' },
   { url: '/images/2a. Welcome.webp', caption: 'Welcome to Casa OM del Sur' },
   { url: '/images/2. Punta Marina Entrance Sign.webp', caption: 'Punta Marina Entrance Sign' },
   { url: '/images/3. Punta Marina Complex.webp', caption: 'Punta Marina Complex' },
@@ -50,8 +51,7 @@ const slides: Slide[] = [
   { url: '/images/100. Smiles on the beach.webp', caption: 'Enjoy restaurants and activities on Playa La Ropa' },
   { url: '/images/35. Playa Ropa Beach.webp', caption: 'Beautiful Playa La Ropa' },
   { url: '/images/36. Playa Ropa Beach.webp', caption: 'Sunny Beach Days' },
-  { url: '/images/1. Sunset Playa Ropa.webp', caption: 'Stunning Sunset on Playa La Ropa' },
-  { url: '/images/4. Welcome to Casa OM.webp', caption: 'Welcome to Casa OM del Sur' }
+  { url: '/images/1. Sunset Playa Ropa.webp', caption: 'Stunning Sunset on Playa La Ropa' }
 ];
 
 export const ImageCarousel: React.FC = () => {
