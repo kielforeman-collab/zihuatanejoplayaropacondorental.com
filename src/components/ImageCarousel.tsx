@@ -54,9 +54,13 @@ const slides: Slide[] = [
   { url: '/images/1. Sunset Playa Ropa.webp', caption: 'Stunning Sunset on Playa La Ropa' }
 ];
 
-export const ImageCarousel: React.FC = () => {
+interface ImageCarouselProps {
+  isBackground?: boolean;
+}
+
+export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(isBackground);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
   const timeoutRef = useRef<number | null>(null);
@@ -74,17 +78,18 @@ export const ImageCarousel: React.FC = () => {
   // Autoplay Logic
   useEffect(() => {
     if (isPlaying) {
-      timeoutRef.current = window.setTimeout(nextSlide, 4000);
+      timeoutRef.current = window.setTimeout(nextSlide, isBackground ? 5000 : 4000);
     }
     return () => {
       if (timeoutRef.current) {
         window.clearTimeout(timeoutRef.current);
       }
     };
-  }, [currentIndex, isPlaying, nextSlide]);
+  }, [currentIndex, isPlaying, nextSlide, isBackground]);
 
   // Keyboard navigation
   useEffect(() => {
+    if (isBackground) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') nextSlide();
       if (e.key === 'ArrowLeft') prevSlide();
@@ -92,18 +97,21 @@ export const ImageCarousel: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nextSlide, prevSlide, isFullscreen]);
+  }, [nextSlide, prevSlide, isFullscreen, isBackground]);
 
   // Touch Swipe handlers
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (isBackground) return;
     touchStartX.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (isBackground) return;
     touchEndX.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchEnd = () => {
+    if (isBackground) return;
     const threshold = 50;
     const diff = touchStartX.current - touchEndX.current;
     if (diff > threshold) {
@@ -120,6 +128,38 @@ export const ImageCarousel: React.FC = () => {
 
   const togglePlay = () => setIsPlaying(!isPlaying);
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
+
+  if (isBackground) {
+    return (
+      <div className="hero-bg-carousel">
+        {slides.map((slide, index) => {
+          const isCurrent = index === currentIndex;
+          const isLoaded = loadedImages[index];
+
+          // Render only current and adjacent slides to keep memory low and DOM lightweight
+          const shouldRender = Math.abs(index - currentIndex) <= 1 || index === 0 || index === slides.length - 1;
+
+          if (!shouldRender) return null;
+
+          return (
+            <div
+              key={slide.url}
+              className={`hero-bg-slide ${isCurrent ? 'active' : ''}`}
+            >
+              <img
+                src={slide.url}
+                alt="Background slide"
+                className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
+                onLoad={() => handleImageLoaded(index)}
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
+            </div>
+          );
+        })}
+        <div className="hero-bg-overlay"></div>
+      </div>
+    );
+  }
 
   return (
     <div className={`carousel-wrapper ${isFullscreen ? 'carousel-fullscreen' : ''}`}>
@@ -206,4 +246,5 @@ export const ImageCarousel: React.FC = () => {
     </div>
   );
 };
+
 export default ImageCarousel;

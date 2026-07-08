@@ -7,8 +7,9 @@ export const Home: React.FC = () => {
   return (
     <div className="page-home animate-fade-in">
       {/* Hero Section */}
-      <section className="hero-section bg-ocean-gradient text-white">
-        <div className="hero-grid container">
+      <section className="hero-section text-white">
+        <ImageCarousel isBackground={true} />
+        <div className="hero-content container">
           <div className="hero-text-block">
             <span className="hero-badge">Vacation Condo Rental</span>
             <h1 className="hero-title">Welcome to Casa OM del Sur</h1>
@@ -27,10 +28,16 @@ export const Home: React.FC = () => {
               </Link>
             </div>
           </div>
-          <div className="hero-carousel-container">
-            <ImageCarousel />
-          </div>
         </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section className="gallery-section container">
+        <div className="section-header">
+          <h2 className="section-title">Take a Look Inside</h2>
+          <p className="section-subtitle">Browse images of our condo, private patio, shared swimming pool, and the beach.</p>
+        </div>
+        <ImageCarousel />
       </section>
 
       {/* Overview Section */}
