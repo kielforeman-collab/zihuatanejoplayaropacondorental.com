@@ -1445,6 +1445,11 @@ body {
 }
 
 @media (max-width: 768px) {
+  /* Layout & Container tweaks */
+  .container {
+    padding: 0 1rem;
+  }
+
   .navbar-toggle-btn {
     display: block;
   }
@@ -1457,56 +1462,190 @@ body {
     display: block;
   }
 
-  .hero-title {
-    font-size: 2.25rem;
+  /* Shorter Navbar */
+  .navbar-container {
+    height: 64px;
+  }
+  
+  .navbar-logo {
+    font-size: 1.3rem;
   }
 
-  .hero-subtitle {
-    font-size: 1.35rem;
+  /* Compact Page Banners */
+  .page-banner {
+    padding: 2.5rem 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .banner-content h1 {
+    font-size: 2rem;
+  }
+  
+  .banner-content h2 {
+    font-size: 1.1rem;
   }
 
+  /* Typography scale */
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  /* Hero Section space optimization */
   .hero-section {
-    padding: 3rem 0 3.5rem 0;
+    padding: 2.5rem 0 3rem 0;
+  }
+  
+  .hero-badge {
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.7rem;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-tagline {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .hero-actions {
+    gap: 0.75rem;
   }
 
+  /* Section Paddings reduction */
+  .gallery-section,
+  .overview-section,
+  .highlights-section,
+  .dining-guide,
+  .contact-main,
+  .rates-main,
+  .cta-bannerbg {
+    padding: 2.5rem 0;
+  }
+
+  /* Mobile Full-Bleed Slideshow */
+  .carousel-wrapper {
+    margin: 1rem -1rem;
+    width: calc(100% + 2rem);
+    max-width: none;
+  }
+  
+  .carousel-main {
+    aspect-ratio: 4 / 3;
+    border-radius: 0;
+  }
+  
+  .carousel-caption-bar {
+    border-radius: 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .carousel-arrow {
+    width: 34px;
+    height: 34px;
+  }
+  
+  .arrow-left {
+    left: 0.25rem;
+  }
+  
+  .arrow-right {
+    right: 0.25rem;
+  }
+  
+  .carousel-dots {
+    margin-top: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  /* Grid layouts & gaps compression */
+  .overview-grid,
+  .about-intro-grid,
+  .contact-layout-grid,
+  .rates-layout-grid {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .restaurant-grid,
   .highlights-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .restaurant-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .inclusions-grid {
+    gap: 1.25rem;
+    margin-top: 1.25rem;
     grid-template-columns: 1fr;
   }
 
+  /* Card padding compressions */
+  .overview-text, 
+  .overview-details,
+  .about-intro-text,
+  .about-intro-card,
+  .info-card,
+  .details-card,
+  .contact-form-wrapper,
+  .price-primary-card,
+  .contact-map-card {
+    padding: 1.25rem;
+  }
+
+  /* Restaurant Cards tweaks */
+  .restaurant-image-container {
+    height: 180px;
+  }
+  
+  .restaurant-content {
+    padding: 1rem;
+  }
+  
+  .restaurant-quote {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Details and lists spacing */
+  .features-list,
+  .info-list,
+  .booking-contact-list,
+  .details-list,
+  .policies-list {
+    gap: 1rem;
+  }
+  
+  /* Form elements spacing */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .captcha-group {
+    padding: 1rem;
+  }
+  
+  /* Map adjustments */
+  .map-iframe-container {
+    height: 250px;
+  }
+
+  /* Footer Spacing */
+  .footer-root {
+    padding: 2.5rem 0 1.5rem 0;
+  }
+  
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .footer-bottom {
     flex-direction: column;
     text-align: center;
-  }
-
-  .carousel-arrow {
-    width: 38px;
-    height: 38px;
-  }
-
-  .arrow-left {
-    left: 0.5rem;
-  }
-
-  .arrow-right {
-    right: 0.5rem;
-  }
-
-  .contact-form-wrapper {
-    padding: 1.5rem;
   }
 }
