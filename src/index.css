@@ -282,7 +282,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Controls and overlays */
@@ -730,7 +732,7 @@ body {
    Home Page Specific Styling
    ========================================================================== */
 .hero-section {
-  padding: 7rem 0 8rem 0;
+  padding: 4.5rem 0 5rem 0;
   text-align: center;
   position: relative;
   background-size: cover;
@@ -829,7 +831,8 @@ body {
   gap: 2.5rem;
 }
 
-.overview-text, .overview-details {
+.overview-text,
+.overview-details {
   padding: 2.5rem;
 }
 
@@ -1426,6 +1429,7 @@ body {
   .hero-title {
     font-size: 3rem;
   }
+
   .overview-grid,
   .about-intro-grid,
   .contact-layout-grid,
@@ -1433,6 +1437,7 @@ body {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
@@ -1443,50 +1448,64 @@ body {
   .navbar-toggle-btn {
     display: block;
   }
+
   .navbar-desktop-menu {
     display: none;
   }
+
   .navbar-mobile-drawer {
     display: block;
   }
+
   .hero-title {
     font-size: 2.25rem;
   }
+
   .hero-subtitle {
     font-size: 1.35rem;
   }
+
   .hero-section {
-    padding: 5rem 0 6rem 0;
+    padding: 3rem 0 3.5rem 0;
   }
+
   .highlights-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
   .restaurant-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
   .inclusions-grid {
     grid-template-columns: 1fr;
   }
+
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
   }
+
   .carousel-arrow {
     width: 38px;
     height: 38px;
   }
+
   .arrow-left {
     left: 0.5rem;
   }
+
   .arrow-right {
     right: 0.5rem;
   }
+
   .contact-form-wrapper {
     padding: 1.5rem;
   }
