@@ -82,7 +82,7 @@ export const Contact: React.FC = () => {
               <div className="map-iframe-container">
                 <iframe 
                   title="Punta Marina Location Map"
-                  src="https://maps.google.com/maps?width=100%25&height=400&hl=en&q=Punta Marina 103 Zihuatanejo+(Punta Marina 103)&t=&z=17&ie=UTF8&iwloc=B&output=embed" 
+                  src="https://maps.google.com/maps?width=100%25&height=400&hl=en&q=Punta Marina 103 Zihuatanejo+(Punta Marina 103)&t=&z=14&ie=UTF8&iwloc=B&output=embed" 
                   width="100%" 
                   height="100%" 
                   style={{ border: 0 }} 
