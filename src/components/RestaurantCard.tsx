@@ -24,7 +24,11 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
     <div className="restaurant-card glass-panel">
       <div className="restaurant-image-container">
         <picture>
-          <source type="image/avif" srcSet={image.replace(/\.(jpg|jpeg)$/i, '.avif')} />
+          {/* srcset URLs must be percent-encoded (see ImageCarousel): the
+              srcset parser takes the first whitespace-delimited token as
+              the URL, so a spaced filename would make this source unusable
+              and the browser would fall back to the JPEG. */}
+          <source type="image/avif" srcSet={image.replace(/\.(jpg|jpeg)$/i, '.avif').replace(/ /g, '%20')} />
           <img src={image} alt={title} className="restaurant-image" loading="lazy" decoding="async" />
         </picture>
         <div className="restaurant-rating">

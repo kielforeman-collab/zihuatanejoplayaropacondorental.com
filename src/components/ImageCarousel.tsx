@@ -58,6 +58,15 @@ interface ImageCarouselProps {
   isBackground?: boolean;
 }
 
+// srcset URLs must be percent-encoded: the srcset parser takes the first
+// whitespace-delimited token as the URL, so a filename with literal spaces
+// (all of this site's image names have them) makes every candidate
+// unparseable and the browser silently falls through to the <img> src.
+// That is how the AVIF deploy shipped without any AVIF ever being selected:
+// currentSrc stayed on the .webp fallback. Plain src attributes are fine
+// unencoded — only srcset values need this.
+const srcsetUrl = (url: string) => url.replace(/ /g, '%20');
+
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // Autoplay starts on for background carousels. The reduced-motion check
@@ -163,7 +172,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
         <link
           rel="preload"
           as="image"
-          imageSrcSet={`${heroUrl.replace(/\.webp$/i, '-800.avif')} 800w, ${heroUrl.replace(/\.webp$/i, '.avif')} 1600w`}
+          imageSrcSet={`${srcsetUrl(heroUrl.replace(/\.webp$/i, '-800.avif'))} 800w, ${srcsetUrl(heroUrl.replace(/\.webp$/i, '.avif'))} 1600w`}
           imageSizes="100vw"
           fetchPriority="high"
         />
@@ -187,17 +196,17 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
               <picture>
                 <source
                   type="image/avif"
-                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.avif')} 800w, ${slide.url.replace(/\.webp$/i, '.avif')} 1600w`}
+                  srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.avif'))} 800w, ${srcsetUrl(slide.url.replace(/\.webp$/i, '.avif'))} 1600w`}
                   sizes="100vw"
                 />
                 <source
                   type="image/webp"
-                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                  srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
                   sizes="100vw"
                 />
                 <img
                   src={slide.url}
-                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                  srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
                   sizes="100vw"
                   alt={slide.caption}
                   className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
@@ -244,17 +253,17 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                 <picture>
                   <source
                     type="image/avif"
-                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.avif')} 800w, ${slide.url.replace(/\.webp$/i, '.avif')} 1600w`}
+                    srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.avif'))} 800w, ${srcsetUrl(slide.url.replace(/\.webp$/i, '.avif'))} 1600w`}
                     sizes="100vw"
                   />
                   <source
                     type="image/webp"
-                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                    srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
                     sizes="100vw"
                   />
                   <img
                     src={slide.url}
-                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                    srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
                     sizes="100vw"
                     alt={slide.caption || 'Condo image'}
                     className="carousel-image"
