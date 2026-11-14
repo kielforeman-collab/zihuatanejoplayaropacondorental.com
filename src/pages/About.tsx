@@ -36,7 +36,7 @@ export const About: React.FC = () => {
   ];
 
   return (
-    <div className="page-about animate-fade-in">
+    <div className="page-about">
       {/* Banner */}
       <div 
         className="page-banner text-white" 

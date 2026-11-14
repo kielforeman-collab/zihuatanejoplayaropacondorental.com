@@ -4,7 +4,7 @@ import { CalendarRange, Info, Check, ShieldCheck, HelpCircle } from 'lucide-reac
 
 export const Rates: React.FC = () => {
   return (
-    <div className="page-rates animate-fade-in">
+    <div className="page-rates">
       {/* Banner */}
       <div 
         className="page-banner text-white" 

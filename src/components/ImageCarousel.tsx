@@ -182,7 +182,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
         <div className="carousel-slides-container">
           {slides.map((slide, index) => {
             const isCurrent = index === currentIndex;
-            const isLoaded = loadedImages[index];
 
             // Only render current slide + adjacent slides for performance (preloading)
             const shouldRender = Math.abs(index - currentIndex) <= 2 || index === 0 || index === slides.length - 1;
@@ -195,15 +194,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                 className={`carousel-slide ${isCurrent ? 'slide-active' : ''}`}
                 style={{ display: isCurrent ? 'block' : 'none' }}
               >
-                {!isLoaded && (
-                  <div className="carousel-spinner-container">
-                    <div className="carousel-spinner"></div>
-                  </div>
-                )}
                 <img
                   src={slide.url}
                   alt={slide.caption || 'Condo image'}
-                  className={`carousel-image ${isLoaded ? 'image-loaded' : ''}`}
+                  className="carousel-image"
                   onLoad={() => handleImageLoaded(index)}
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchPriority={index === 0 ? 'high' : undefined}

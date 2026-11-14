@@ -4,7 +4,7 @@ import ContactForm from '../components/ContactForm';
 
 export const Contact: React.FC = () => {
   return (
-    <div className="page-contact animate-fade-in">
+    <div className="page-contact">
       {/* Header Banner */}
       <div 
         className="page-banner text-white" 

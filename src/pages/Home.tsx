@@ -5,7 +5,7 @@ import ImageCarousel from '../components/ImageCarousel';
 
 export const Home: React.FC = () => {
   return (
-    <div className="page-home animate-fade-in">
+    <div className="page-home">
       {/* Hero Section */}
       <section className="hero-section text-white">
         <ImageCarousel isBackground={true} />
