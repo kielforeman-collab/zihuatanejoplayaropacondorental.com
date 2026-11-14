@@ -34,9 +34,14 @@ const routes = [
   { path: '/contact', file: 'contact/index.html' },
 ];
 
-function replaceOrThrow(out, pattern, replacement, label) {
+function replaceOrThrow(out, pattern, replacer, label) {
   if (!pattern.test(out)) throw new Error(`prerender: could not find ${label} in template`);
-  return out.replace(pattern, replacement);
+  // The replacement is a function, not a string: a string replacement would
+  // read `$` sequences in the text as back-references. The Rates description
+  // contains "$1,000 to $2,500", which String.replace turned into the matched
+  // `<meta ...>` tag ($1) and a quote ($2), corrupting the description in
+  // the served HTML. A function inserts its return value literally.
+  return out.replace(pattern, replacer);
 }
 
 for (const { path, file } of routes) {
@@ -49,27 +54,27 @@ for (const { path, file } of routes) {
 
   let out = template;
   out = out.replace('<div id="root"></div>', `<div id="root">${html}</div>`);
-  out = replaceOrThrow(out, /<title>[^<]*<\/title>/, `<title>${meta.title}</title>`, 'title');
+  out = replaceOrThrow(out, /<title>[^<]*<\/title>/, () => `<title>${meta.title}</title>`, 'title');
   out = replaceOrThrow(
     out,
     /(<meta name="description" content=")[^"]*(")/,
-    `$1${meta.description}$2`,
+    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
     'meta description',
   );
-  out = replaceOrThrow(out, /(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`, 'canonical');
-  out = replaceOrThrow(out, /(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`, 'og:url');
-  out = replaceOrThrow(out, /(<meta property="og:title" content=")[^"]*(")/, `$1${meta.title}$2`, 'og:title');
+  out = replaceOrThrow(out, /(<link rel="canonical" href=")[^"]*(")/, (_m, g1, g2) => `${g1}${url}${g2}`, 'canonical');
+  out = replaceOrThrow(out, /(<meta property="og:url" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${url}${g2}`, 'og:url');
+  out = replaceOrThrow(out, /(<meta property="og:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${meta.title}${g2}`, 'og:title');
   out = replaceOrThrow(
     out,
     /(<meta property="og:description" content=")[^"]*(")/,
-    `$1${meta.description}$2`,
+    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
     'og:description',
   );
-  out = replaceOrThrow(out, /(<meta name="twitter:title" content=")[^"]*(")/, `$1${meta.title}$2`, 'twitter:title');
+  out = replaceOrThrow(out, /(<meta name="twitter:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${meta.title}${g2}`, 'twitter:title');
   out = replaceOrThrow(
     out,
     /(<meta name="twitter:description" content=")[^"]*(")/,
-    `$1${meta.description}$2`,
+    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
     'twitter:description',
   );
 
