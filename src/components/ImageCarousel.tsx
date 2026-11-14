@@ -80,6 +80,16 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Until the client hydrates, render only the current slide. The hero's
+  // neighbouring slides are stacked on top of each other, so loading="lazy"
+  // never defers them and the browser fetched ~670 KiB of hero images on
+  // first load. After hydration the neighbours mount and preload as before;
+  // the server and the first client render agree, so hydration still matches.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   }, []);
@@ -150,7 +160,9 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
           const isLoaded = loadedImages[index];
 
           // Render only current and adjacent slides to keep memory low and DOM lightweight
-          const shouldRender = Math.abs(index - currentIndex) <= 1 || index === 0 || index === slides.length - 1;
+          const shouldRender = hydrated
+            ? Math.abs(index - currentIndex) <= 1 || index === 0 || index === slides.length - 1
+            : index === currentIndex;
 
           if (!shouldRender) return null;
 
@@ -192,7 +204,9 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
             const isCurrent = index === currentIndex;
 
             // Only render current slide + adjacent slides for performance (preloading)
-            const shouldRender = Math.abs(index - currentIndex) <= 2 || index === 0 || index === slides.length - 1;
+            const shouldRender = hydrated
+              ? Math.abs(index - currentIndex) <= 2 || index === 0 || index === slides.length - 1
+              : index === currentIndex;
 
             if (!shouldRender) return null;
 

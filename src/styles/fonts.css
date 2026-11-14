@@ -1,0 +1,29 @@
+/* Self-hosted fonts (variable weights, one file per family/style).
+   The woff2 files are copied into public/fonts/ at build time by
+   scripts/copy-fonts.mjs from the @fontsource-variable npm packages, so no
+   request ever goes to Google Fonts: that external stylesheet was the
+   longest item on the mobile critical path (1,350ms on Slow 4G).
+   font-display: swap keeps text visible while the files load. */
+@font-face {
+  font-family: 'Outfit';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('/fonts/outfit-variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('/fonts/playfair-display-variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 400 900;
+  src: url('/fonts/playfair-display-variable-italic.woff2') format('woff2-variations');
+}

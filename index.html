@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H6Y04DNSLW"></script>
+    <!-- Google Analytics, loaded only once the browser is idle: gtag.js is
+         157 KiB and caused the only two long main-thread tasks during page
+         load. The stub queues calls (including the route-change configs from
+         the app) until the real script arrives; requestIdleCallback falls
+         back to a delayed load after window load. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-H6Y04DNSLW');
+      function loadGtag(){
+        if (window.__gtagLoaded) return;
+        window.__gtagLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H6Y04DNSLW';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-H6Y04DNSLW');
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, { timeout: 5000 });
+      } else {
+        window.addEventListener('load', function(){ setTimeout(loadGtag, 1000); });
+      }
     </script>
 
     <meta charset="UTF-8" />
@@ -55,12 +71,11 @@
     }
     </script>
     
-    <!-- Google Fonts Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Fonts as a <link>, not a CSS @import: an @import in variables.css is
-         only discovered after the stylesheet loads, delaying text rendering. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@300;400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" />
+    <!-- Self-hosted fonts (see src/styles/fonts.css): preload the two files
+         the first paint needs — Playfair 700 for headings, Outfit for body.
+         No Google Fonts links anymore; nothing here fetches off-origin. -->
+    <link rel="preload" href="/fonts/playfair-display-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/outfit-variable.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- No manual preload for the hero image: React 19 emits one during
          pre-rendering (a srcset-aware imageSrcSet preload plus a plain one

@@ -7,11 +7,14 @@
  * and Vercel produces the optimized copies on every deploy.
  *
  * - public/images/*.webp (gallery + hero, up to 4032px / 2.7 MB each):
- *   resized to max 1600px wide, WebP quality 75. Display size is ~1344px
- *   at most, so 1600px covers high-density screens without the 4000px cost.
- *   A second 800px-wide copy (`name-800.webp`, quality 72) is emitted for
- *   every wide WebP so the hero carousel can serve phones a smaller file
- *   via srcset instead of the 1600px version.
+ *   resized to max 1600px wide, WebP quality 68, effort 6. Display size is
+ *   ~1344px at most, so 1600px covers high-density screens without the
+ *   4000px cost. A second 800px-wide copy (`name-800.webp`, quality 65,
+ *   effort 6) is emitted for every wide WebP so the hero carousel can serve
+ *   phones a smaller file via srcset instead of the 1600px version.
+ *   (Was quality 75/72, effort 4 — PageSpeed's image-delivery audit put
+ *   372 KiB of further savings on the table, and effort 6 buys back
+ *   ~5-10% at the same quality for build time only.)
  * - public/images/*.jpg (restaurant photos): max 1200px wide, JPEG quality 80.
  * - public/mobile/* (single-character CAPTCHA images, ~250 bytes): skipped.
  * - Files already small enough are left alone; output is only written when
@@ -48,7 +51,7 @@ for (const entry of await readdir(DIST_IMAGES)) {
     const smallFile = file.replace(/\.webp$/i, '-800.webp');
     const small = await sharp(file)
       .resize({ width: 800, withoutEnlargement: true })
-      .webp({ quality: 72, effort: 4 })
+      .webp({ quality: 65, effort: 6 })
       .toBuffer();
     await writeFile(smallFile, small);
   }
@@ -60,7 +63,7 @@ for (const entry of await readdir(DIST_IMAGES)) {
     withoutEnlargement: true,
   });
   const out = isWebp
-    ? await pipeline.webp({ quality: 75, effort: 4 }).toBuffer()
+    ? await pipeline.webp({ quality: 68, effort: 6 }).toBuffer()
     : await pipeline.jpeg({ quality: 80, mozjpeg: true }).toBuffer();
 
   if (out.length < inputBytes) {

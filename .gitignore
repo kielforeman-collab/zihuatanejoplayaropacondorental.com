@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build-time copied font binaries (scripts/copy-fonts.mjs)
+public/fonts/
