@@ -5,6 +5,8 @@ import { CalendarRange, Info, Check, ShieldCheck, HelpCircle } from 'lucide-reac
 export const Rates: React.FC = () => {
   return (
     <div className="page-rates">
+      {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
+      <link rel="alternate" type="text/markdown" href="/rates.md" />
       {/* Banner */}
       <div 
         className="page-banner text-white" 

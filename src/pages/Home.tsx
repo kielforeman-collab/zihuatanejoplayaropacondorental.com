@@ -6,6 +6,8 @@ import ImageCarousel from '../components/ImageCarousel';
 export const Home: React.FC = () => {
   return (
     <div className="page-home">
+      {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
+      <link rel="alternate" type="text/markdown" href="/index.md" />
       {/* Hero Section */}
       <section className="hero-section text-white">
         <ImageCarousel isBackground={true} />

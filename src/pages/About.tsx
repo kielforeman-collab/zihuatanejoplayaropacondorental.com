@@ -37,6 +37,8 @@ export const About: React.FC = () => {
 
   return (
     <div className="page-about">
+      {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
+      <link rel="alternate" type="text/markdown" href="/about.md" />
       {/* Banner */}
       <div 
         className="page-banner text-white" 

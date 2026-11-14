@@ -71,6 +71,14 @@
     }
     </script>
     
+    <!-- Agent discoverability (llms.txt v2 + ARD v0.91): the llms.txt file
+         describes this site for LLM agents, and the ARD manifest lists the
+         agent-facing resources it publishes. The per-page Markdown versions
+         are linked with rel="alternate" from each page component. -->
+    <link rel="describedby" href="/llms.txt" />
+    <link rel="ard" href="/.well-known/ard.json" />
+    <link rel="ai-catalog" href="/.well-known/ai-catalog.json" />
+
     <!-- Self-hosted fonts (see src/styles/fonts.css): preload the two files
          the first paint needs — Playfair 700 for headings, Outfit for body.
          No Google Fonts links anymore; nothing here fetches off-origin. -->

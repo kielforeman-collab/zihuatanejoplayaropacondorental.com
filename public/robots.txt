@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.zihuatanejoplayaropacondorental.com/sitemap.xml
+Agentmap: https://www.zihuatanejoplayaropacondorental.com/.well-known/ard.json

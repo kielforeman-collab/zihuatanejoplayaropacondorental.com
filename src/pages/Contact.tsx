@@ -5,6 +5,8 @@ import ContactForm from '../components/ContactForm';
 export const Contact: React.FC = () => {
   return (
     <div className="page-contact">
+      {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
+      <link rel="alternate" type="text/markdown" href="/contact.md" />
       {/* Header Banner */}
       <div 
         className="page-banner text-white" 
