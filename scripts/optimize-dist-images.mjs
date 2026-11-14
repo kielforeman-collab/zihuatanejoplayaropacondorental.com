@@ -15,7 +15,16 @@
  *   (Was quality 75/72, effort 4 — PageSpeed's image-delivery audit put
  *   372 KiB of further savings on the table, and effort 6 buys back
  *   ~5-10% at the same quality for build time only.)
- * - public/images/*.jpg (restaurant photos): max 1200px wide, JPEG quality 80.
+ * - AVIF variants (`name.avif` + `name-800.avif`, quality 50, effort 2)
+ *   are emitted for every WebP and JPEG original and served via <picture>
+ *   with the WebP/JPEG as fallback. AVIF q50 is roughly WebP q68 quality
+ *   and runs 25-40% smaller (hero 194 -> 137 KiB, 2a. Welcome 400 -> 242
+ *   KiB). Effort 2 is the sweet spot: effort 4 takes ~13s per 1600px file
+ *   for ~5% more savings, effort 0 is fast but barely smaller than WebP.
+ *   Banners (CSS background-image) and the tiny CAPTCHA images stay WebP:
+ *   CSS has no <picture> fallback, and the CAPTCHA files are ~250 bytes.
+ * - public/images/*.jpg (restaurant photos): max 1200px wide, JPEG quality 80,
+ *   plus a 1200px AVIF variant at quality 50.
  * - public/mobile/* (single-character CAPTCHA images, ~250 bytes): skipped.
  * - Files already small enough are left alone; output is only written when
  *   it is actually smaller than the input. Extensions are never changed.
@@ -38,6 +47,7 @@ for (const entry of await readdir(DIST_IMAGES)) {
   const isJpeg = /\.(jpg|jpeg)$/i.test(entry);
   if (!isWebp && !isJpeg) continue;
   if (/-800\.webp$/i.test(entry)) continue; // generated variant, not an original
+  if (/\.avif$/i.test(entry)) continue; // generated variant, not an original
 
   const inputBytes = (await stat(file)).size;
   const metadata = await sharp(file).metadata();
@@ -54,6 +64,25 @@ for (const entry of await readdir(DIST_IMAGES)) {
       .webp({ quality: 65, effort: 6 })
       .toBuffer();
     await writeFile(smallFile, small);
+  }
+
+  // AVIF variants, for <picture> sources. Always written (not subject to
+  // the skip below): the <picture> markup references them unconditionally,
+  // and AVIF q50 beats the WebP/JPEG output for photos. The 1600px AVIF
+  // matches the main file's width; the 800px AVIF matches the -800 WebP.
+  const avifFile = file.replace(/\.(webp|jpe?g)$/i, '.avif');
+  const avif = await sharp(file)
+    .resize({ width: maxWidth, withoutEnlargement: true })
+    .avif({ quality: 50, effort: 2 })
+    .toBuffer();
+  await writeFile(avifFile, avif);
+  if (isWebp) {
+    const smallAvifFile = file.replace(/\.webp$/i, '-800.avif');
+    const smallAvif = await sharp(file)
+      .resize({ width: 800, withoutEnlargement: true })
+      .avif({ quality: 50, effort: 2 })
+      .toBuffer();
+    await writeFile(smallAvifFile, smallAvif);
   }
 
   if ((metadata.width ?? 0) <= maxWidth && inputBytes < 300 * 1024) continue;

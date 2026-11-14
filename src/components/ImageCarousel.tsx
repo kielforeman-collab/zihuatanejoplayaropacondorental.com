@@ -153,8 +153,21 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
   if (isBackground) {
+    // Preload the first slide in AVIF. This <link> is hoisted to <head> by
+    // React during pre-rendering. The hero <img> deliberately has no
+    // fetchPriority: React would then preload its WebP srcset and the
+    // browser would fetch both formats. This manual preload is the only one.
+    const heroUrl = slides[0].url;
     return (
-      <div className="hero-bg-carousel">
+      <>
+        <link
+          rel="preload"
+          as="image"
+          imageSrcSet={`${heroUrl.replace(/\.webp$/i, '-800.avif')} 800w, ${heroUrl.replace(/\.webp$/i, '.avif')} 1600w`}
+          imageSizes="100vw"
+          fetchPriority="high"
+        />
+        <div className="hero-bg-carousel">
         {slides.map((slide, index) => {
           const isCurrent = index === currentIndex;
           const isLoaded = loadedImages[index];
@@ -171,22 +184,34 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
               key={slide.url}
               className={`hero-bg-slide ${isCurrent ? 'active' : ''}`}
             >
-              <img
-                src={slide.url}
-                srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
-                sizes="100vw"
-                alt={slide.caption}
-                className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
-                onLoad={() => handleImageLoaded(index)}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                fetchPriority={index === 0 ? 'high' : undefined}
-                decoding={index === 0 ? 'sync' : 'async'}
-              />
+              <picture>
+                <source
+                  type="image/avif"
+                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.avif')} 800w, ${slide.url.replace(/\.webp$/i, '.avif')} 1600w`}
+                  sizes="100vw"
+                />
+                <source
+                  type="image/webp"
+                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                  sizes="100vw"
+                />
+                <img
+                  src={slide.url}
+                  srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                  sizes="100vw"
+                  alt={slide.caption}
+                  className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
+                  onLoad={() => handleImageLoaded(index)}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding={index === 0 ? 'sync' : 'async'}
+                />
+              </picture>
             </div>
           );
         })}
         <div className="hero-bg-overlay"></div>
-      </div>
+        </div>
+      </>
     );
   }
 
@@ -216,15 +241,28 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                 className={`carousel-slide ${isCurrent ? 'slide-active' : ''}`}
                 style={{ display: isCurrent ? 'block' : 'none' }}
               >
-                <img
-                  src={slide.url}
-                  alt={slide.caption || 'Condo image'}
-                  className="carousel-image"
-                  onLoad={() => handleImageLoaded(index)}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  fetchPriority={index === 0 ? 'high' : undefined}
-                  decoding={index === 0 ? 'sync' : 'async'}
-                />
+                <picture>
+                  <source
+                    type="image/avif"
+                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.avif')} 800w, ${slide.url.replace(/\.webp$/i, '.avif')} 1600w`}
+                    sizes="100vw"
+                  />
+                  <source
+                    type="image/webp"
+                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                    sizes="100vw"
+                  />
+                  <img
+                    src={slide.url}
+                    srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                    sizes="100vw"
+                    alt={slide.caption || 'Condo image'}
+                    className="carousel-image"
+                    onLoad={() => handleImageLoaded(index)}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding={index === 0 ? 'sync' : 'async'}
+                  />
+                </picture>
               </div>
             );
           })}
