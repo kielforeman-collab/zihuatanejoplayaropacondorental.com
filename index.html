@@ -1,31 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Analytics, loaded only once the browser is idle: gtag.js is
-         157 KiB and caused the only two long main-thread tasks during page
-         load. The stub queues calls (including the route-change configs from
-         the app) until the real script arrives; requestIdleCallback falls
-         back to a delayed load after window load. -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      function loadGtag(){
-        if (window.__gtagLoaded) return;
-        window.__gtagLoaded = true;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H6Y04DNSLW';
-        document.head.appendChild(s);
-        gtag('js', new Date());
-        gtag('config', 'G-H6Y04DNSLW');
-      }
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadGtag, { timeout: 5000 });
-      } else {
-        window.addEventListener('load', function(){ setTimeout(loadGtag, 1000); });
-      }
-    </script>
-
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

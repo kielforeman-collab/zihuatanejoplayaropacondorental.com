@@ -78,21 +78,6 @@ const ScrollToTop: React.FC = () => {
   return null;
 };
 
-// Route change tracker for Google Analytics (if gtag exists)
-const AnalyticsTracker: React.FC = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (typeof (window as any).gtag === 'function') {
-      (window as any).gtag('config', 'G-H6Y04DNSLW', {
-        page_path: location.pathname + location.search + location.hash,
-      });
-    }
-  }, [location]);
-
-  return null;
-};
-
 // Old hash URLs (#/about, #/rates, #/contact) from before the router switch:
 // redirect them to the matching real path so shared links and bookmarks keep working.
 const HashRedirect: React.FC = () => {
@@ -118,7 +103,6 @@ export const AppShell: React.FC = () => {
     <>
       <ScrollToTop />
       <RouteMeta />
-      <AnalyticsTracker />
       <HashRedirect />
       <Analytics />
       <a className="skip-link" href="#main-content">
