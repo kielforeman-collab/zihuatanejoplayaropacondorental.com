@@ -62,10 +62,10 @@
          only discovered after the stylesheet loads, delaying text rendering. -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Outfit:wght@300;400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" />
 
-    <!-- Preload the first hero image. It is in the pre-rendered HTML now, so
-         the browser discovers it while parsing; the preload keeps it at the
-         front of the queue on slow connections. -->
-    <link rel="preload" as="image" href="/images/4.%20Welcome%20to%20Casa%20OM.webp" fetchpriority="high" />
+    <!-- No manual preload for the hero image: React 19 emits one during
+         pre-rendering (a srcset-aware imageSrcSet preload plus a plain one
+         for the high-priority img), so a hand-written preload here would
+         just duplicate it. -->
   </head>
   <body>
     <div id="root"></div>
