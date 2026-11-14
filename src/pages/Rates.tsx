@@ -9,7 +9,7 @@ export const Rates: React.FC = () => {
       <div 
         className="page-banner text-white" 
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://www.zihuatanejoplayaropacondorental.com/images/webp2/bg Sunset Playa Ropa.jpg")`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/1.%20Sunset%20Playa%20Ropa.webp")`
         }}
       >
         <div className="banner-content container">

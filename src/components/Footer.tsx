@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="footer-links">
-            <h4 className="footer-title">Explore</h4>
+            <h3 className="footer-title">Explore</h3>
             <ul>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About & Area Guide</Link></li>
@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
 
           {/* Contact details */}
           <div className="footer-contact">
-            <h4 className="footer-title">Contact</h4>
+            <h3 className="footer-title">Contact</h3>
             <ul>
               <li>
                 <MapPin size={16} />

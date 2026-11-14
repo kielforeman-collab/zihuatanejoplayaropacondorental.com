@@ -23,6 +23,16 @@ export const Navbar: React.FC = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
+  // Escape closes the mobile drawer.
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeMenu();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   const isActive = (path: string) => {
     return location.pathname === path ? 'active-link' : '';
   };
@@ -64,13 +74,15 @@ export const Navbar: React.FC = () => {
           className="navbar-toggle-btn"
           onClick={toggleMenu}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-drawer"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Drawer Menu */}
-      <div className={`navbar-mobile-drawer ${isOpen ? 'drawer-open' : ''}`}>
+      <div id="mobile-drawer" className={`navbar-mobile-drawer ${isOpen ? 'drawer-open' : ''}`}>
         <div className="drawer-links">
           {navLinks.map((link) => (
             <Link

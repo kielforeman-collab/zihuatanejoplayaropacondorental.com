@@ -115,6 +115,8 @@ export const ContactForm: React.FC = () => {
             type="text"
             id="name"
             name="name"
+            autoComplete="name"
+            aria-invalid={errors.name}
             value={formData.name}
             onChange={handleInputChange}
             className={`form-input ${errors.name ? 'input-error' : ''}`}
@@ -129,6 +131,8 @@ export const ContactForm: React.FC = () => {
             type="email"
             id="email"
             name="email"
+            autoComplete="email"
+            aria-invalid={errors.email}
             value={formData.email}
             onChange={handleInputChange}
             className={`form-input ${errors.email ? 'input-error' : ''}`}
@@ -143,6 +147,8 @@ export const ContactForm: React.FC = () => {
             type="tel"
             id="phone"
             name="phone"
+            autoComplete="tel"
+            aria-invalid={errors.phone}
             value={formData.phone}
             onChange={handleInputChange}
             className={`form-input ${errors.phone ? 'input-error' : ''}`}
@@ -164,31 +170,39 @@ export const ContactForm: React.FC = () => {
           ></textarea>
         </div>
 
-        {/* CAPTCHA / Passphrase block */}
+        {/* CAPTCHA / Passphrase block.
+            The character images are decorative: their alt text must stay empty,
+            otherwise the passphrase itself is exposed to screen readers (and to
+            anything reading the DOM). Note the code is also hardcoded in this
+            file for the client-side pre-check — real validation must happen on
+            the server endpoint the form posts to. */}
         <div className="form-group captcha-group">
-          <label>Passphrase <span className="required">*</span></label>
+          <label htmlFor="passphrase">Passphrase <span className="required">*</span></label>
           <div className="captcha-display">
-            <div className="captcha-images">
-              <img src="/mobile/images/w.webp" alt="w" />
-              <img src="/mobile/images/6.webp" alt="6" />
-              <img src="/mobile/images/5.webp" alt="5" />
-              <img src="/mobile/images/k.webp" alt="k" />
-              <img src="/mobile/images/p.webp" alt="p" />
-              <img src="/mobile/images/q.webp" alt="q" />
+            <div className="captcha-images" aria-hidden="true">
+              <img src="/mobile/images/w.webp" alt="" />
+              <img src="/mobile/images/6.webp" alt="" />
+              <img src="/mobile/images/5.webp" alt="" />
+              <img src="/mobile/images/k.webp" alt="" />
+              <img src="/mobile/images/p.webp" alt="" />
+              <img src="/mobile/images/q.webp" alt="" />
             </div>
             <button
               type="button"
               className="captcha-audio-btn"
               onClick={playAudioCaptcha}
+              aria-label="Speak passphrase"
               title="Speak Passphrase"
             >
               <Volume2 size={20} />
             </button>
           </div>
-          
+
           <input
             type="text"
+            id="passphrase"
             name="passphrase"
+            aria-invalid={errors.passphrase}
             value={formData.passphrase}
             onChange={handleInputChange}
             className={`form-input captcha-input ${errors.passphrase ? 'input-error' : ''}`}

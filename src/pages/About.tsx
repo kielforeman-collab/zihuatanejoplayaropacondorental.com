@@ -41,7 +41,7 @@ export const About: React.FC = () => {
       <div 
         className="page-banner text-white" 
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://www.zihuatanejoplayaropacondorental.com/images/webp2/bg Playa Ropa Beach.jpg")`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/34.%20Playa%20Ropa%20Beach.webp")`
         }}
       >
         <div className="banner-content container">

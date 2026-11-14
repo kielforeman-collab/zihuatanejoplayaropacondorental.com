@@ -60,7 +60,12 @@ interface ImageCarouselProps {
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(isBackground);
+  // Never autoplay for users who prefer reduced motion.
+  const [isPlaying, setIsPlaying] = useState(
+    () =>
+      isBackground &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
   const timeoutRef = useRef<number | null>(null);
@@ -148,10 +153,12 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
             >
               <img
                 src={slide.url}
-                alt="Background slide"
+                alt={slide.caption}
                 className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
                 onLoad={() => handleImageLoaded(index)}
                 loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : undefined}
+                decoding={index === 0 ? 'sync' : 'async'}
               />
             </div>
           );
@@ -197,6 +204,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                   className={`carousel-image ${isLoaded ? 'image-loaded' : ''}`}
                   onLoad={() => handleImageLoaded(index)}
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={index === 0 ? 'high' : undefined}
+                  decoding={index === 0 ? 'sync' : 'async'}
                 />
               </div>
             );
@@ -233,10 +242,12 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
       </div>
 
       {/* Slide dots indicator */}
-      <div className="carousel-dots">
+      <div className="carousel-dots" role="tablist" aria-label="Gallery slides">
         {slides.map((_, index) => (
           <button
             key={index}
+            role="tab"
+            aria-selected={index === currentIndex}
             className={`carousel-dot ${index === currentIndex ? 'dot-active' : ''}`}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Go to slide ${index + 1}`}

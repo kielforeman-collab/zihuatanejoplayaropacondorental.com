@@ -184,3 +184,47 @@ a:hover {
   background: var(--accent-light);
   color: var(--accent-dark);
 }
+
+/* Skip link: hidden until keyboard focus, then visible at the top. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 10000;
+  background: var(--neutral-900);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: #fff;
+}
+
+/* Visible keyboard focus everywhere (the audit found no focus ring). */
+:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+/* Respect reduced-motion: no fade-in, ken-burns zoom, spinner, or smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-fade-in {
+    animation: none;
+  }
+
+  .hero-bg-slide.active .hero-bg-image {
+    animation: none;
+  }
+
+  .carousel-spinner {
+    animation: none;
+  }
+}

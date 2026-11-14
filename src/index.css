@@ -393,17 +393,36 @@ body {
 }
 
 .carousel-dot {
-  background-color: var(--neutral-300);
+  /* 24px hit area (WCAG 2.2 target size); the visible dot is drawn with ::after
+     so the look stays the same while the button is actually tappable. */
+  background-color: transparent;
   border: none;
-  width: 8px;
-  height: 8px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   cursor: pointer;
   padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.carousel-dot::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--neutral-300);
   transition: var(--transition-fast);
 }
 
 .carousel-dot.dot-active {
+  background-color: transparent;
+}
+
+.carousel-dot.dot-active::after {
   background-color: var(--primary);
   transform: scale(1.25);
   width: 12px;
@@ -1404,7 +1423,7 @@ body {
 }
 
 .footer-description {
-  color: var(--neutral-700);
+  color: var(--neutral-300);
   line-height: 1.6;
 }
 
@@ -1466,7 +1485,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  color: var(--neutral-700);
+  color: var(--neutral-300);
   font-size: 0.85rem;
 }
 

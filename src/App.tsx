@@ -1,13 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Rates from './pages/Rates';
 import './index.css';
+
+// Non-home routes are code-split so the homepage (the LCP route) does not
+// pay for their JavaScript up front.
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Rates = lazy(() => import('./pages/Rates'));
+
+// Per-route document title + meta description. The SPA has one HTML shell,
+// so without this every route shared the homepage title.
+const ROUTE_META: Record<string, { title: string; description: string }> = {
+  '/': {
+    title: 'Zihuatanejo Playa Ropa condo rental - Casa OM del Sur',
+    description:
+      'Rent a beautiful Playa Ropa condo with a swimming pool in Zihuatanejo, Mexico! Three large king bedrooms with ensuite bathrooms, private patio, and bay views.',
+  },
+  '/about': {
+    title: 'About Playa La Ropa & Zihuatanejo - Casa OM del Sur',
+    description:
+      'About Casa OM del Sur and Playa La Ropa, Zihuatanejo, Mexico — the beach, the Punta Marina complex, and local dining recommendations.',
+  },
+  '/rates': {
+    title: 'Rates & Pricing - Casa OM del Sur, Playa La Ropa',
+    description:
+      'Weekly rental rates for Casa OM del Sur, Playa La Ropa, Zihuatanejo — $1,000 to $2,500 USD per week depending on season, plus cleaning fee and deposit details.',
+  },
+  '/contact': {
+    title: 'Contact & Booking - Casa OM del Sur, Playa La Ropa',
+    description:
+      'Contact Oscar Mario Sanchez to check availability and book Casa OM del Sur, a 3-bedroom condo rental on Playa La Ropa, Zihuatanejo, Mexico.',
+  },
+};
+
+const RouteMeta: React.FC = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const meta = ROUTE_META[pathname] ?? ROUTE_META['/'];
+    document.title = meta.title;
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute('content', meta.description);
+  }, [pathname]);
+
+  return null;
+};
 
 // Scroll to top of the page on route transition
 const ScrollToTop: React.FC = () => {
@@ -39,18 +80,24 @@ export const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
+      <RouteMeta />
       <AnalyticsTracker />
       <Analytics />
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
       <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Navbar />
-        <main className="main-content" style={{ flexGrow: 1 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/rates" element={<Rates />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<Home />} /> {/* Fallback route */}
-          </Routes>
+        <main id="main-content" className="main-content" style={{ flexGrow: 1 }}>
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/rates" element={<Rates />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<Home />} /> {/* Fallback route */}
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

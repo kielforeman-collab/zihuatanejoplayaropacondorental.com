@@ -23,7 +23,7 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
   return (
     <div className="restaurant-card glass-panel">
       <div className="restaurant-image-container">
-        <img src={image} alt={title} className="restaurant-image" />
+        <img src={image} alt={title} className="restaurant-image" loading="lazy" decoding="async" />
         <div className="restaurant-rating">
           <Star size={16} fill="var(--secondary)" color="var(--secondary-dark)" />
           <Star size={16} fill="var(--secondary)" color="var(--secondary-dark)" />
