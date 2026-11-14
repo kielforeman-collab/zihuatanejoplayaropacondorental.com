@@ -109,7 +109,7 @@ export const Home: React.FC = () => {
           <div className="highlight-card">
             <Shield className="highlight-icon" />
             <h4>Safe & Secure</h4>
-            <p>Rest easy with overnight security staff and gated entrance parameters at Punta Marina.</p>
+            <p>Rest easy with overnight security staff and gated entrance perimeters at Punta Marina.</p>
           </div>
         </div>
       </section>
