@@ -5,28 +5,28 @@ export const About: React.FC = () => {
   const restaurants = [
     {
       title: "Paty's Marymar",
-      image: "images/patys-marymar-1.jpg",
+      image: "/images/patys-marymar-1.jpg",
       link: "https://patys-marymar.com/",
       description: "Paty's Marymar is located right on the beachfront of Playa La Ropa. It offers al fresco dining, full bar services, table service, wheelchair accessibility, and highchairs. Available for delivery and pickup.",
       quote: "My favourite casual eatery and bar on the beach. Healthy smoothies, breakfasts and lunches and casual evening dining. Also, there is YOGA in the upper salon most days of the week! Drop-in classes are available.",
     },
     {
       title: "La Gaviota",
-      image: "images/la-gaviota-1.jpg",
+      image: "/images/la-gaviota-1.jpg",
       link: "https://www.tripadvisor.ca/Restaurant_Review-g150795-d1032486-Reviews-La_Gaviota-Zihuatanejo_Zihuatanejo_de_Azueta_Pacific_Coast.html",
       description: "La Gaviota is situated extremely close to the condo suite and sits right on the beach, making it ideal for sunset dinners. Features outside seating, full bar, credit card acceptance, free WiFi, and beachfront access. Family and dog friendly.",
       quote: "Possibly my favourite restaurant in Zihua, great service, every table has an amazing view and the food is wonderful!",
     },
     {
       title: "Jungle Pizza",
-      image: "images/jungle-pizza-1.jpg",
+      image: "/images/jungle-pizza-1.jpg",
       link: "https://www.tripadvisor.ca/Restaurant_Review-g150795-d1379281-Reviews-Jungle_Pizza-Zihuatanejo_Zihuatanejo_de_Azueta_Pacific_Coast.html",
       description: "Located just back from the beach across the street from the OXXO store. Jungle Pizza features delivery, takeout, outdoor seating, a full bar, and a welcoming jungle atmosphere.",
       quote: "The best pizza in town, the host Ruben is a great guy and very personable. Great place for a beer, pizza, and a salad. Ruben delivers too.",
     },
     {
       title: "Trattoria da Gianni",
-      image: "images/trattoria-de-gianni-1.jpg",
+      image: "/images/trattoria-de-gianni-1.jpg",
       link: "https://www.tripadvisor.com/Restaurant_Review-g150795-d7747587-Reviews-Trattoria_da_Gianni_Zihuatanejo-Zihuatanejo_Zihuatanejo_de_Azueta_Pacific_Coast.html",
       description: "An excellent Italian bistro located on the access road just behind Playa La Ropa. Features indoor and cozy outdoor garden seating with a fine selection of pasta and wine.",
       quote: "Gianni's is an Italian bistro that offers a nice selection of menu items. Gianni is in most nights and is a great host.",

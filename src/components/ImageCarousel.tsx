@@ -60,17 +60,25 @@ interface ImageCarouselProps {
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = false }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // Never autoplay for users who prefer reduced motion.
-  const [isPlaying, setIsPlaying] = useState(
-    () =>
-      isBackground &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  );
+  // Autoplay starts on for background carousels. The reduced-motion check
+  // lives in an effect (not here): the first render must be identical on
+  // the server and the client or hydration fails, and the server has no
+  // matchMedia.
+  const [isPlaying, setIsPlaying] = useState(isBackground);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
   const timeoutRef = useRef<number | null>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
+
+  // Never autoplay for users who prefer reduced motion.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsPlaying(false);
+    }
+    // Runs once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));

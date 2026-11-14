@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- The site is a hash-routed SPA, so the homepage is the only crawlable URL;
-       #/about, #/rates and #/contact are fragments of it, not separate URLs. -->
+  <!-- Real URLs now: the site uses BrowserRouter and each route is
+       pre-rendered to its own static HTML file at build time. -->
   <url>
     <loc>https://www.zihuatanejoplayaropacondorental.com/</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.zihuatanejoplayaropacondorental.com/about</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.zihuatanejoplayaropacondorental.com/rates</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.zihuatanejoplayaropacondorental.com/contact</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
