@@ -9,6 +9,9 @@
  * - public/images/*.webp (gallery + hero, up to 4032px / 2.7 MB each):
  *   resized to max 1600px wide, WebP quality 75. Display size is ~1344px
  *   at most, so 1600px covers high-density screens without the 4000px cost.
+ *   A second 800px-wide copy (`name-800.webp`, quality 72) is emitted for
+ *   every wide WebP so the hero carousel can serve phones a smaller file
+ *   via srcset instead of the 1600px version.
  * - public/images/*.jpg (restaurant photos): max 1200px wide, JPEG quality 80.
  * - public/mobile/* (single-character CAPTCHA images, ~250 bytes): skipped.
  * - Files already small enough are left alone; output is only written when
@@ -31,10 +34,25 @@ for (const entry of await readdir(DIST_IMAGES)) {
   const isWebp = /\.webp$/i.test(entry);
   const isJpeg = /\.(jpg|jpeg)$/i.test(entry);
   if (!isWebp && !isJpeg) continue;
+  if (/-800\.webp$/i.test(entry)) continue; // generated variant, not an original
 
   const inputBytes = (await stat(file)).size;
   const metadata = await sharp(file).metadata();
   const maxWidth = isWebp ? 1600 : 1200;
+
+  // Small variant for phones, generated for EVERY WebP before any skip
+  // below: the hero carousel's srcset references it for every slide, and a
+  // missing srcset candidate does not fall back to the other one. (Files
+  // already <=800px wide are just re-encoded at their own width.)
+  if (isWebp) {
+    const smallFile = file.replace(/\.webp$/i, '-800.webp');
+    const small = await sharp(file)
+      .resize({ width: 800, withoutEnlargement: true })
+      .webp({ quality: 72, effort: 4 })
+      .toBuffer();
+    await writeFile(smallFile, small);
+  }
+
   if ((metadata.width ?? 0) <= maxWidth && inputBytes < 300 * 1024) continue;
 
   const pipeline = sharp(file).resize({

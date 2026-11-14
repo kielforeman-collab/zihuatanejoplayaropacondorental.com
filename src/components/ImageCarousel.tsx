@@ -153,6 +153,8 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
             >
               <img
                 src={slide.url}
+                srcSet={`${slide.url.replace(/\.webp$/i, '-800.webp')} 800w, ${slide.url} 1600w`}
+                sizes="100vw"
                 alt={slide.caption}
                 className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
                 onLoad={() => handleImageLoaded(index)}

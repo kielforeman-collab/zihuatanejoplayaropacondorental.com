@@ -58,6 +58,11 @@
     <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload the first hero image. The hero is rendered by React after the
+         JS bundle loads, so without this the browser only discovers the LCP
+         image once the app mounts — the hero sat blank for seconds. -->
+    <link rel="preload" as="image" href="/images/4.%20Welcome%20to%20Casa%20OM.webp" fetchpriority="high" />
   </head>
   <body>
     <div id="root"></div>
