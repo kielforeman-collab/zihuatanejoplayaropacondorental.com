@@ -15,6 +15,7 @@ import './index.css';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Rates from './pages/Rates';
+import Faq from './pages/Faq';
 
 // Per-route document title + meta description. Each route is pre-rendered
 // to its own static HTML file at build time, so the prerender script also
@@ -23,7 +24,7 @@ export const ROUTE_META: Record<string, { title: string; description: string }> 
   '/': {
     title: 'Zihuatanejo Playa Ropa condo rental - Casa OM del Sur',
     description:
-      'Rent a beautiful Playa Ropa condo with a swimming pool in Zihuatanejo, Mexico! Three large king bedrooms with ensuite bathrooms, private patio, and bay views.',
+      'Rent Casa OM del Sur, a Playa La Ropa vacation rental with a swimming pool in Zihuatanejo, Mexico. Three king bedrooms with ensuites, private patio, bay views.',
   },
   '/about': {
     title: 'About Playa La Ropa & Zihuatanejo - Casa OM del Sur',
@@ -33,12 +34,17 @@ export const ROUTE_META: Record<string, { title: string; description: string }> 
   '/rates': {
     title: 'Rates & Pricing - Casa OM del Sur, Playa La Ropa',
     description:
-      'Weekly rental rates for Casa OM del Sur, Playa La Ropa, Zihuatanejo — $1,000 to $2,500 USD per week depending on season, plus cleaning fee and deposit details.',
+      'Weekly vacation rental rates for Casa OM del Sur, Playa La Ropa — $1,000 to $2,500 USD per week by season, plus cleaning fee and deposit details.',
   },
   '/contact': {
     title: 'Contact & Booking - Casa OM del Sur, Playa La Ropa',
     description:
       'Contact Oscar Mario Sanchez to check availability and book Casa OM del Sur, a 3-bedroom condo rental on Playa La Ropa, Zihuatanejo, Mexico.',
+  },
+  '/faq': {
+    title: 'Frequently Asked Questions - Casa OM del Sur, Playa La Ropa',
+    description:
+      'Answers about renting Casa OM del Sur, a Playa La Ropa vacation rental: weekly rates, minimum stay, deposits, what is included, and how to book.',
   },
 };
 
@@ -126,6 +132,7 @@ export const AppShell: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/rates" element={<Rates />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/faq" element={<Faq />} />
             <Route path="*" element={<Home />} /> {/* Fallback route */}
           </Routes>
         </main>

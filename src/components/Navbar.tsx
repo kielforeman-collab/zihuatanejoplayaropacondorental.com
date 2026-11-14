@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Info, DollarSign, Mail } from 'lucide-react';
+import { Menu, X, Home, Info, DollarSign, Mail, HelpCircle } from 'lucide-react';
 import '../styles/main.css';
 
 export const Navbar: React.FC = () => {
@@ -41,6 +41,7 @@ export const Navbar: React.FC = () => {
     { path: '/', label: 'Home', icon: <Home size={18} /> },
     { path: '/about', label: 'About', icon: <Info size={18} /> },
     { path: '/rates', label: 'Rates', icon: <DollarSign size={18} /> },
+    { path: '/faq', label: 'FAQ', icon: <HelpCircle size={18} /> },
     { path: '/contact', label: 'Contact', icon: <Mail size={18} /> },
   ];
 

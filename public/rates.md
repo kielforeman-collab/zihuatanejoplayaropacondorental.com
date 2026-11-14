@@ -1,8 +1,8 @@
 # Rates & Pricing — Casa OM del Sur
 
-## Rental rates
+## Weekly rental rates
 
-$1,000–$2,500 USD per week. Prices vary depending on the season, duration, and occupancy. Ask for exact pricing for your dates.
+$1,000–$2,500 USD per week. Weekly vacation rental prices vary depending on the season, duration, and occupancy. Ask for exact pricing for your dates.
 
 - Minimum stay: one week
 - High Season: December–April

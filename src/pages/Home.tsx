@@ -19,7 +19,7 @@ export const Home: React.FC = () => {
               Overlooking beautiful <strong>Playa La Ropa</strong> in Zihuatanejo, Mexico
             </h2>
             <p className="hero-tagline">
-              A luxury 3-bedroom, 3-bathroom retreat nested in the private, peaceful Punta Marina complex.
+              A luxury 3-bedroom, 3-bathroom vacation rental nested in the private, peaceful Punta Marina complex.
             </p>
             <div className="hero-actions">
               <Link to="/contact" className="btn btn-secondary">
@@ -120,7 +120,7 @@ export const Home: React.FC = () => {
       <section className="cta-bannerbg bg-ocean-gradient text-white">
         <div className="cta-container container text-center">
           <h2>Ready to Experience Paradise?</h2>
-          <p>Book your weekly stay at Casa OM del Sur. Rates range from $1,000 USD to $2,500 USD per week.</p>
+          <p>Book your weekly vacation rental stay at Casa OM del Sur. Rates range from $1,000 USD to $2,500 USD per week.</p>
           <div className="cta-buttons">
             <Link to="/rates" className="btn btn-secondary">
               View Rates

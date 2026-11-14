@@ -228,3 +228,40 @@ a:hover {
     animation: none;
   }
 }
+
+/* FAQ page */
+.faq-main {
+  padding: 3rem 0 4rem;
+}
+
+.faq-intro {
+  font-size: 1.1rem;
+  max-width: 720px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.faq-list {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  padding: 1.5rem 1.75rem;
+}
+
+.faq-item h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.faq-item p {
+  margin: 0;
+}
+
+.faq-cta {
+  text-align: center;
+  margin-top: 2.5rem;
+}

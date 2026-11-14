@@ -25,7 +25,7 @@ export const Rates: React.FC = () => {
           {/* Main Price Card */}
           <div className="price-primary-card bg-ocean-gradient text-white">
             <CalendarRange size={36} className="price-card-icon" />
-            <h3>Rental Rates</h3>
+            <h3>Weekly Rental Rates</h3>
             <div className="price-tag">
               <span className="price-currency">$1,000</span>
               <span className="price-dash">&mdash;</span>
@@ -33,7 +33,7 @@ export const Rates: React.FC = () => {
               <span className="price-period">USD / Week</span>
             </div>
             <p className="price-conditions">
-              Prices vary depending on the season, duration, and occupancy. 
+              Weekly vacation rental prices vary depending on the season, duration, and occupancy. 
               Please inquire for exact pricing for your specific dates.
             </p>
             <div className="price-requirements">

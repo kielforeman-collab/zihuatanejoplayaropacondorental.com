@@ -1,6 +1,6 @@
 # Casa OM del Sur — Playa La Ropa Condo Rental
 
-Casa OM del Sur is a luxury 3-bedroom, 3-bathroom vacation condo in the Punta Marina complex at Playa La Ropa, Zihuatanejo, Mexico, overlooking the bay.
+Casa OM del Sur is a luxury 3-bedroom, 3-bathroom vacation rental condo in the Punta Marina complex at Playa La Ropa, Zihuatanejo, Mexico, overlooking the bay.
 
 ## The condo
 

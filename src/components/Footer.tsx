@@ -16,7 +16,7 @@ export const Footer: React.FC = () => {
               <span className="logo-del-sur">del Sur</span>
             </Link>
             <p className="footer-description">
-              Experience the perfect vacation getaway. Rent our beautiful king-bedroom condo overlooking Playa La Ropa in Zihuatanejo, Mexico.
+              Experience the perfect vacation rental getaway. Rent our beautiful king-bedroom condo overlooking Playa La Ropa in Zihuatanejo, Mexico.
             </p>
           </div>
 
@@ -27,6 +27,7 @@ export const Footer: React.FC = () => {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About & Area Guide</Link></li>
               <li><Link to="/rates">Rates & Options</Link></li>
+              <li><Link to="/faq">FAQ</Link></li>
               <li><Link to="/contact">Contact & Booking</Link></li>
             </ul>
           </div>

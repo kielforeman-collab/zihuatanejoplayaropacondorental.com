@@ -5,8 +5,8 @@
  * Takes the client build's dist/index.html as the template, renders each
  * route with the server bundle, injects the HTML into #root, and rewrites
  * the per-route title/meta/canonical/OG tags from ROUTE_META. Writes
- * dist/index.html plus dist/about/index.html, dist/rates/index.html and
- * dist/contact/index.html — real files Vercel serves directly, so the first
+ * dist/index.html plus dist/about/index.html, dist/rates/index.html,
+ * dist/contact/index.html and dist/faq/index.html — real files Vercel serves directly, so the first
  * paint no longer waits for the JavaScript bundle to download and React to
  * mount (that was the 2s mobile LCP render delay). The client then hydrates
  * the static HTML (see main.tsx) instead of re-rendering from scratch.
@@ -32,6 +32,7 @@ const routes = [
   { path: '/about', file: 'about/index.html' },
   { path: '/rates', file: 'rates/index.html' },
   { path: '/contact', file: 'contact/index.html' },
+  { path: '/faq', file: 'faq/index.html' },
 ];
 
 function replaceOrThrow(out, pattern, replacer, label) {
