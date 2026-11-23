@@ -1,5 +1,5 @@
 # Casa OM del Sur
-> Casa OM del Sur is a 3-bedroom, 3-bath vacation condo rental at Punta Marina 103, Playa La Ropa, Zihuatanejo, Mexico. Weekly rates run $1,000–$2,500 USD by season, with a one-week minimum stay. Availability and booking are arranged with the host, Oscar Mario Sanchez, through the contact form, email, or phone. There is no online booking system or booking API.
+> Casa OM del Sur is a 3-bedroom, 3-bath vacation condo rental at Punta Marina 103, Playa La Ropa, Zihuatanejo, Mexico. Weekly rates run $1,000–$2,500 USD by season, with a one-week minimum stay. Availability and booking are arranged with the host, Oscar Mario Sanchez, by email or phone/WhatsApp. There is no online booking system or booking API.
 
 Important notes:
 
@@ -15,7 +15,7 @@ Important notes:
 - [About Playa La Ropa](https://www.zihuatanejoplayaropacondorental.com/about.md): The beach, activities, and local dining recommendations.
 - [Rates & Pricing](https://www.zihuatanejoplayaropacondorental.com/rates.md): Weekly rates, what is included, and booking policies.
 - [Frequently Asked Questions](https://www.zihuatanejoplayaropacondorental.com/faq.md): Weekly rates, minimum stay, deposits, what is included, and how to book.
-- [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md): Host contact details, location, map, and the booking inquiry form.
+- [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md): Host contact details, location, and map.
 
 ## Optional
 

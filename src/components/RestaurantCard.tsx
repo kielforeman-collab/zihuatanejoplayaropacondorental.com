@@ -28,8 +28,20 @@ export const RestaurantCard: React.FC<RestaurantCardProps> = ({
               srcset parser takes the first whitespace-delimited token as
               the URL, so a spaced filename would make this source unusable
               and the browser would fall back to the JPEG. */}
-          <source type="image/avif" srcSet={image.replace(/\.(jpg|jpeg)$/i, '.avif').replace(/ /g, '%20')} />
-          <img src={image} alt={title} className="restaurant-image" loading="lazy" decoding="async" />
+          <source
+            type="image/avif"
+            srcSet={`${image.replace(/\.(jpg|jpeg)$/i, '-480.avif').replace(/ /g, '%20')} 480w, ${image.replace(/\.(jpg|jpeg)$/i, '.avif').replace(/ /g, '%20')} 800w`}
+            sizes="(max-width: 768px) 100vw, 560px"
+          />
+          <img
+            src={image}
+            srcSet={`${image.replace(/\.(jpg|jpeg)$/i, '-480.jpg').replace(/ /g, '%20')} 480w, ${image.replace(/ /g, '%20')} 800w`}
+            sizes="(max-width: 768px) 100vw, 560px"
+            alt={title}
+            className="restaurant-image"
+            loading="lazy"
+            decoding="async"
+          />
         </picture>
         <div className="restaurant-rating">
           <Star size={16} fill="var(--secondary)" color="var(--secondary-dark)" />

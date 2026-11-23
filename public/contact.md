@@ -6,7 +6,6 @@ Contact host Oscar Mario Sanchez directly for current availability, customized s
 
 - Email: info@puntamarinazihuatanejo.com
 - Phone / WhatsApp: +52 755 103 6035
-- Inquiry form: the form on the contact page of the website (it includes a CAPTCHA challenge)
 
 ## Condo location
 

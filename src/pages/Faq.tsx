@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PageBanner from '../components/PageBanner';
 
 // Single source of truth: the visible Q&As and the FAQPage JSON-LD below
 // are generated from this same array, so they can never drift apart.
@@ -26,7 +27,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'How do I book Casa OM del Sur?',
-    a: 'There is no online booking system. Contact host Oscar Mario Sanchez through the inquiry form, by email at info@puntamarinazihuatanejo.com, or by phone or WhatsApp at +52 755 103 6035. Reservations are finalized once your deposit is received.',
+    a: 'There is no online booking system. Contact host Oscar Mario Sanchez by email at info@puntamarinazihuatanejo.com, or by phone or WhatsApp at +52 755 103 6035. Reservations are finalized once your deposit is received.',
   },
   {
     q: 'What is the cancellation policy?',
@@ -62,19 +63,15 @@ export const Faq: React.FC = () => {
       {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
       <link rel="alternate" type="text/markdown" href="/faq.md" />
       {/* FAQPage structured data; rendered from the same Q&As as the visible page. */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      {/* Banner */}
-      <div
-        className="page-banner text-white"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/1.%20Sunset%20Playa%20Ropa.webp")`
-        }}
-      >
-        <div className="banner-content container">
-          <h1>Frequently Asked Questions</h1>
-          <h2>Renting Casa OM del Sur</h2>
-        </div>
-      </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      />
+      <PageBanner
+        image="/images/1. Sunset Playa Ropa.webp"
+        title="Frequently Asked Questions"
+        subtitle="Renting Casa OM del Sur"
+      />
 
       <div className="faq-main container">
         <p className="faq-intro">

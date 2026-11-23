@@ -23,40 +23,43 @@
  *   for ~5% more savings, effort 0 is fast but barely smaller than WebP.
  *   Banners (CSS background-image) and the tiny CAPTCHA images stay WebP:
  *   CSS has no <picture> fallback, and the CAPTCHA files are ~250 bytes.
- * - public/images/*.jpg (restaurant photos): max 1200px wide, JPEG quality 80,
- *   plus a 1200px AVIF variant at quality 50.
- * - public/mobile/* (single-character CAPTCHA images, ~250 bytes): skipped.
- * - Files already small enough are left alone; output is only written when
- *   it is actually smaller than the input. Extensions are never changed.
+ * - public/images/*.jpg (restaurant photos): max 800px wide, JPEG quality 80,
+ *   plus a 480px mobile variant (`name-480.jpg`) and 800px/480px AVIF variants
+ *   at quality 50.
+ * - Output overwrites the original only when it is actually smaller than the
+ *   input. Extensions are never changed.
  */
 import { readdir, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import sharp from 'sharp';
 
 const DIST_IMAGES = new URL('../dist/images', import.meta.url).pathname;
+const CONCURRENCY = 4;
 
 let before = 0;
 let after = 0;
 let count = 0;
 
-for (const entry of await readdir(DIST_IMAGES)) {
-  const file = join(DIST_IMAGES, entry);
-  if ((await stat(file)).isDirectory()) continue;
-
+const entries = (await readdir(DIST_IMAGES)).filter((entry) => {
   const isWebp = /\.webp$/i.test(entry);
   const isJpeg = /\.(jpg|jpeg)$/i.test(entry);
-  if (!isWebp && !isJpeg) continue;
-  if (/-800\.webp$/i.test(entry)) continue; // generated variant, not an original
-  if (/\.avif$/i.test(entry)) continue; // generated variant, not an original
+  if (!isWebp && !isJpeg) return false;
+  if (/-(800|480)\.(webp|jpe?g)$/i.test(entry)) return false;
+  if (/\.avif$/i.test(entry)) return false;
+  return true;
+});
 
+async function processEntry(entry) {
+  const file = join(DIST_IMAGES, entry);
+  if ((await stat(file)).isDirectory()) return;
+
+  const isWebp = /\.webp$/i.test(entry);
   const inputBytes = (await stat(file)).size;
   const metadata = await sharp(file).metadata();
-  const maxWidth = isWebp ? 1600 : 1200;
+  const maxWidth = isWebp ? 1600 : 800;
 
-  // Small variant for phones, generated for EVERY WebP before any skip
-  // below: the hero carousel's srcset references it for every slide, and a
-  // missing srcset candidate does not fall back to the other one. (Files
-  // already <=800px wide are just re-encoded at their own width.)
+  // Small responsive variant for phones, generated for every original before
+  // any size skip below so srcset candidates always exist.
   if (isWebp) {
     const smallFile = file.replace(/\.webp$/i, '-800.webp');
     const small = await sharp(file)
@@ -64,28 +67,33 @@ for (const entry of await readdir(DIST_IMAGES)) {
       .webp({ quality: 65, effort: 6 })
       .toBuffer();
     await writeFile(smallFile, small);
+  } else {
+    const smallFile = file.replace(/\.(jpg|jpeg)$/i, '-480.jpg');
+    const small = await sharp(file)
+      .resize({ width: 480, withoutEnlargement: true })
+      .jpeg({ quality: 78, mozjpeg: true })
+      .toBuffer();
+    await writeFile(smallFile, small);
   }
 
-  // AVIF variants, for <picture> sources. Always written (not subject to
-  // the skip below): the <picture> markup references them unconditionally,
-  // and AVIF q50 beats the WebP/JPEG output for photos. The 1600px AVIF
-  // matches the main file's width; the 800px AVIF matches the -800 WebP.
+  // AVIF variants, for <picture> sources. Always written: <picture> markup
+  // references them unconditionally, and AVIF q50 beats WebP/JPEG for photos.
   const avifFile = file.replace(/\.(webp|jpe?g)$/i, '.avif');
   const avif = await sharp(file)
     .resize({ width: maxWidth, withoutEnlargement: true })
     .avif({ quality: 50, effort: 2 })
     .toBuffer();
   await writeFile(avifFile, avif);
-  if (isWebp) {
-    const smallAvifFile = file.replace(/\.webp$/i, '-800.avif');
-    const smallAvif = await sharp(file)
-      .resize({ width: 800, withoutEnlargement: true })
-      .avif({ quality: 50, effort: 2 })
-      .toBuffer();
-    await writeFile(smallAvifFile, smallAvif);
-  }
 
-  if ((metadata.width ?? 0) <= maxWidth && inputBytes < 300 * 1024) continue;
+  const smallAvifWidth = isWebp ? 800 : 480;
+  const smallAvifFile = isWebp
+    ? file.replace(/\.webp$/i, '-800.avif')
+    : file.replace(/\.(jpg|jpeg)$/i, '-480.avif');
+  const smallAvif = await sharp(file)
+    .resize({ width: smallAvifWidth, withoutEnlargement: true })
+    .avif({ quality: 50, effort: 2 })
+    .toBuffer();
+  await writeFile(smallAvifFile, smallAvif);
 
   const pipeline = sharp(file).resize({
     width: Math.min(metadata.width ?? maxWidth, maxWidth),
@@ -103,6 +111,16 @@ for (const entry of await readdir(DIST_IMAGES)) {
     console.log(`  ${entry}: ${(inputBytes / 1024).toFixed(0)} KB -> ${(out.length / 1024).toFixed(0)} KB`);
   }
 }
+
+let cursor = 0;
+async function worker() {
+  while (cursor < entries.length) {
+    const entry = entries[cursor++];
+    await processEntry(entry);
+  }
+}
+
+await Promise.all(Array.from({ length: Math.min(CONCURRENCY, entries.length) }, () => worker()));
 
 console.log(
   `image optimization: ${count} files, ${(before / 1024 / 1024).toFixed(1)} MB -> ${(after / 1024 / 1024).toFixed(1)} MB`,

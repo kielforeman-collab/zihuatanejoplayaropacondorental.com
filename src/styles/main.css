@@ -223,10 +223,6 @@ a:hover {
   .hero-bg-slide.active .hero-bg-image {
     animation: none;
   }
-
-  .carousel-spinner {
-    animation: none;
-  }
 }
 
 /* FAQ page */

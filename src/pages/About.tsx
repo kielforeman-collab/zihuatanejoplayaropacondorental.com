@@ -1,5 +1,6 @@
 import React from 'react';
 import RestaurantCard from '../components/RestaurantCard';
+import PageBanner from '../components/PageBanner';
 
 export const About: React.FC = () => {
   const restaurants = [
@@ -39,18 +40,11 @@ export const About: React.FC = () => {
     <div className="page-about">
       {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
       <link rel="alternate" type="text/markdown" href="/about.md" />
-      {/* Banner */}
-      <div 
-        className="page-banner text-white" 
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/34.%20Playa%20Ropa%20Beach.webp")`
-        }}
-      >
-        <div className="banner-content container">
-          <h1>About Playa La Ropa</h1>
-          <h2>Zihuatanejo, Mexico</h2>
-        </div>
-      </div>
+      <PageBanner
+        image="/images/34. Playa Ropa Beach.webp"
+        title="About Playa La Ropa"
+        subtitle="Zihuatanejo, Mexico"
+      />
 
       {/* Main Content */}
       <div className="about-main container">
