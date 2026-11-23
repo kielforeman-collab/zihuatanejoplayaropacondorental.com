@@ -22,4 +22,4 @@ $1,000–$2,500 USD per week, depending on season, duration, and occupancy. Mini
 
 ## Booking
 
-There is no online booking system. Contact host Oscar Mario Sanchez for availability and a quote: info@puntamarinazihuatanejo.com, +52 755 103 6035 (phone/WhatsApp), or the inquiry form on the [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md) page.
+There is no online booking system. Contact host Oscar Mario Sanchez for availability and a quote: info@puntamarinazihuatanejo.com or +52 755 103 6035 (phone/WhatsApp). See the [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md) page for location and map details.

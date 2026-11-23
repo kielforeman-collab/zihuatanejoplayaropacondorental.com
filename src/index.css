@@ -15,11 +15,19 @@ body {
 .page-banner {
   padding: 5rem 0;
   text-align: center;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
   position: relative;
+  overflow: hidden;
+  background-color: var(--neutral-900);
   margin-bottom: 3rem;
+}
+
+.page-banner-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 .page-banner::before {
@@ -257,35 +265,6 @@ body {
      The slide itself still crossfades (see .carousel-slide), and the
      carousel frame has a dark background, so a loading image paints
      progressively over dark instead of waiting behind a spinner. */
-}
-
-/* Preloader spinner */
-.carousel-spinner-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--neutral-800);
-  z-index: 2;
-}
-
-.carousel-spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.1);
-  border-left-color: var(--primary-light);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* Controls and overlays */
@@ -570,182 +549,6 @@ body {
 .btn-outline:hover {
   background-color: var(--neutral-100);
   border-color: var(--neutral-700);
-}
-
-/* ==========================================================================
-   Contact Form Component
-   ========================================================================== */
-.contact-form-wrapper {
-  padding: 2.25rem;
-  border: 1px solid var(--neutral-200);
-}
-
-.form-group {
-  margin-bottom: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.form-group label {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--neutral-800);
-}
-
-.required {
-  color: var(--accent);
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-  border: 1px solid var(--neutral-300);
-  border-radius: var(--border-radius-md);
-  background-color: #fff;
-  transition: var(--transition-fast);
-  outline: none;
-}
-
-.form-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.15);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.input-error {
-  border-color: var(--accent);
-  background-color: rgba(249, 115, 22, 0.02);
-}
-
-.error-text {
-  font-size: 0.8rem;
-  color: var(--accent-dark);
-  font-weight: 500;
-}
-
-/* Captcha area styling */
-.captcha-group {
-  background-color: var(--neutral-100);
-  padding: 1.25rem;
-  border-radius: var(--border-radius-md);
-  border: 1px dashed var(--neutral-300);
-}
-
-.captcha-display {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.captcha-images {
-  display: flex;
-  background-color: #fff;
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--border-radius-sm);
-  border: 1px solid var(--neutral-300);
-  gap: 2px;
-  align-items: center;
-  justify-content: center;
-}
-
-.captcha-images img {
-  height: 28px;
-  width: auto;
-  user-select: none;
-}
-
-.captcha-audio-btn {
-  background-color: #fff;
-  border: 1px solid var(--neutral-300);
-  color: var(--primary);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: var(--transition-fast);
-  box-shadow: var(--shadow-sm);
-}
-
-.captcha-audio-btn:hover {
-  background-color: var(--primary-light);
-  color: #fff;
-  border-color: var(--primary-light);
-}
-
-.captcha-input {
-  font-size: 1.1rem;
-  letter-spacing: 1.5px;
-  text-align: center;
-  text-transform: lowercase;
-  max-width: 250px;
-  margin: 0 auto;
-}
-
-.captcha-help-text {
-  font-size: 0.75rem;
-  color: var(--neutral-700);
-  text-align: center;
-}
-
-.form-error-banner {
-  background-color: var(--accent-light);
-  border: 1px solid var(--accent);
-  color: var(--accent-dark);
-  padding: 0.75rem 1rem;
-  border-radius: var(--border-radius-md);
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-
-.btn-submit {
-  width: 100%;
-  padding: 0.85rem;
-  font-size: 1rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-spinner {
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 0.8s linear infinite;
-}
-
-.form-success-message {
-  text-align: center;
-  padding: 3rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.form-success-message h3 {
-  font-size: 1.75rem;
-  color: var(--neutral-900);
-}
-
-.form-success-message p {
-  color: var(--neutral-700);
-  max-width: 400px;
 }
 
 /* ==========================================================================
@@ -1203,20 +1006,20 @@ body {
   flex-shrink: 0;
 }
 
+.contact-map-panel {
+  height: 100%;
+}
+
 .contact-map-card {
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 .map-iframe-container {
   width: 100%;
-  height: 350px;
+  height: 480px;
   border-radius: var(--border-radius-md);
   overflow: hidden;
   border: 1px solid var(--neutral-200);
-}
-
-.contact-form-panel {
-  padding: 1rem 0;
 }
 
 .panel-title {
@@ -1226,7 +1029,7 @@ body {
 
 .panel-subtitle {
   color: var(--neutral-700);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 /* ==========================================================================
@@ -1668,7 +1471,6 @@ body {
   .about-intro-card,
   .info-card,
   .details-card,
-  .contact-form-wrapper,
   .price-primary-card,
   .contact-map-card {
     padding: 1.25rem;
@@ -1697,18 +1499,9 @@ body {
     gap: 1rem;
   }
   
-  /* Form elements spacing */
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .captcha-group {
-    padding: 1rem;
-  }
-  
   /* Map adjustments */
   .map-iframe-container {
-    height: 250px;
+    height: 320px;
   }
 
   /* Footer Spacing */

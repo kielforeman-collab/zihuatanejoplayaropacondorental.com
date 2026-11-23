@@ -54,6 +54,15 @@ const slides: Slide[] = [
   { url: '/images/1. Sunset Playa Ropa.webp', caption: 'Stunning Sunset on Playa La Ropa' }
 ];
 
+const heroSlides: Slide[] = [
+  { url: '/images/4. Welcome to Casa OM.webp', caption: 'Welcome to Casa OM del Sur' },
+  { url: '/images/1. Sunset Playa Ropa.webp', caption: 'Stunning Sunset on Playa La Ropa' },
+  { url: '/images/104. Beautiful view.webp', caption: 'Beautiful view overlooking Playa La Ropa' },
+  { url: '/images/5. Patio.webp', caption: 'Main Patio' },
+  { url: '/images/31. Complex Swimming pool.webp', caption: 'Complex Swimming Pool' },
+  { url: '/images/34. Playa Ropa Beach.webp', caption: 'Playa La Ropa Beach' },
+];
+
 interface ImageCarouselProps {
   isBackground?: boolean;
 }
@@ -68,14 +77,16 @@ interface ImageCarouselProps {
 const srcsetUrl = (url: string) => url.replace(/ /g, '%20');
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = false }) => {
+  const activeSlides = isBackground ? heroSlides : slides;
   const [currentIndex, setCurrentIndex] = useState(0);
   // Autoplay starts on for background carousels. The reduced-motion check
   // lives in an effect (not here): the first render must be identical on
   // the server and the client or hydration fails, and the server has no
   // matchMedia.
   const [isPlaying, setIsPlaying] = useState(isBackground);
+  const [isVisible, setIsVisible] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [loadedImages, setLoadedImages] = useState<Record<number, boolean>>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
@@ -85,9 +96,39 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsPlaying(false);
     }
-    // Runs once on mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Pause background autoplay when the carousel is scrolled out of view or
+  // the tab is hidden, avoiding unnecessary image downloads and GPU work.
+  useEffect(() => {
+    if (!isBackground) return;
+    let inViewport = true;
+
+    const updateVisibility = () => {
+      setIsVisible(inViewport && !document.hidden);
+    };
+
+    const observer =
+      typeof IntersectionObserver !== 'undefined' && containerRef.current
+        ? new IntersectionObserver(
+            (entries) => {
+              inViewport = entries[0]?.isIntersecting ?? true;
+              updateVisibility();
+            },
+            { threshold: 0.05 },
+          )
+        : null;
+
+    if (observer && containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    document.addEventListener('visibilitychange', updateVisibility);
+
+    return () => {
+      observer?.disconnect();
+      document.removeEventListener('visibilitychange', updateVisibility);
+    };
+  }, [isBackground]);
 
   // Until the client hydrates, render only the current slide. The hero's
   // neighbouring slides are stacked on top of each other, so loading="lazy"
@@ -99,17 +140,19 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
     setHydrated(true);
   }, []);
 
+  const slideCount = activeSlides.length;
+
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  }, []);
+    setCurrentIndex((prev) => (prev === slideCount - 1 ? 0 : prev + 1));
+  }, [slideCount]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, []);
+    setCurrentIndex((prev) => (prev === 0 ? slideCount - 1 : prev - 1));
+  }, [slideCount]);
 
   // Autoplay Logic
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && (!isBackground || isVisible)) {
       timeoutRef.current = window.setTimeout(nextSlide, isBackground ? 5000 : 4000);
     }
     return () => {
@@ -117,7 +160,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
         window.clearTimeout(timeoutRef.current);
       }
     };
-  }, [currentIndex, isPlaying, nextSlide, isBackground]);
+  }, [currentIndex, isPlaying, isVisible, nextSlide, isBackground]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -153,11 +196,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
     }
   };
 
-  // Image load handler
-  const handleImageLoaded = (index: number) => {
-    setLoadedImages((prev) => ({ ...prev, [index]: true }));
-  };
-
   const togglePlay = () => setIsPlaying(!isPlaying);
   const toggleFullscreen = () => setIsFullscreen(!isFullscreen);
 
@@ -166,25 +204,28 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
     // React during pre-rendering. The hero <img> deliberately has no
     // fetchPriority: React would then preload its WebP srcset and the
     // browser would fetch both formats. This manual preload is the only one.
-    const heroUrl = slides[0].url;
+    const heroUrl = activeSlides[0].url;
     return (
       <>
         <link
           rel="preload"
           as="image"
+          type="image/avif"
           imageSrcSet={`${srcsetUrl(heroUrl.replace(/\.webp$/i, '-800.avif'))} 800w, ${srcsetUrl(heroUrl.replace(/\.webp$/i, '.avif'))} 1600w`}
           imageSizes="100vw"
           fetchPriority="high"
         />
-        <div className="hero-bg-carousel">
-        {slides.map((slide, index) => {
+        <div ref={containerRef} className="hero-bg-carousel">
+        {activeSlides.map((slide, index) => {
           const isCurrent = index === currentIndex;
-          const isLoaded = loadedImages[index];
+          const nextIndex = (currentIndex + 1) % activeSlides.length;
 
-          // Render only current and adjacent slides to keep memory low and DOM lightweight
+          // Render only the current slide pre-hydration, and current + next
+          // after hydration so the upcoming transition is warm without
+          // eagerly downloading extra slides on initial load.
           const shouldRender = hydrated
-            ? Math.abs(index - currentIndex) <= 1 || index === 0 || index === slides.length - 1
-            : index === currentIndex;
+            ? isCurrent || index === nextIndex
+            : isCurrent;
 
           if (!shouldRender) return null;
 
@@ -209,8 +250,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                   srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
                   sizes="100vw"
                   alt={slide.caption}
-                  className={`hero-bg-image ${isLoaded ? 'image-loaded' : ''}`}
-                  onLoad={() => handleImageLoaded(index)}
+                  className="hero-bg-image"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   decoding={index === 0 ? 'sync' : 'async'}
                 />
@@ -234,13 +274,13 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
       >
         {/* Slides container */}
         <div className="carousel-slides-container">
-          {slides.map((slide, index) => {
+          {activeSlides.map((slide, index) => {
             const isCurrent = index === currentIndex;
 
             // Only render current slide + adjacent slides for performance (preloading)
             const shouldRender = hydrated
-              ? Math.abs(index - currentIndex) <= 2 || index === 0 || index === slides.length - 1
-              : index === currentIndex;
+              ? Math.abs(index - currentIndex) <= 1 || index === 0 || index === activeSlides.length - 1
+              : isCurrent;
 
             if (!shouldRender) return null;
 
@@ -254,22 +294,21 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ isBackground = fal
                   <source
                     type="image/avif"
                     srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.avif'))} 800w, ${srcsetUrl(slide.url.replace(/\.webp$/i, '.avif'))} 1600w`}
-                    sizes="100vw"
+                    sizes="(max-width: 1000px) 100vw, 1000px"
                   />
                   <source
                     type="image/webp"
                     srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
-                    sizes="100vw"
+                    sizes="(max-width: 1000px) 100vw, 1000px"
                   />
                   <img
                     src={slide.url}
                     srcSet={`${srcsetUrl(slide.url.replace(/\.webp$/i, '-800.webp'))} 800w, ${srcsetUrl(slide.url)} 1600w`}
-                    sizes="100vw"
+                    sizes="(max-width: 1000px) 100vw, 1000px"
                     alt={slide.caption || 'Condo image'}
                     className="carousel-image"
-                    onLoad={() => handleImageLoaded(index)}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    decoding={index === 0 ? 'sync' : 'async'}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </picture>
               </div>

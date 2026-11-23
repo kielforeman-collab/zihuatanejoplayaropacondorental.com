@@ -33,7 +33,16 @@ const routes = [
   { path: '/rates', file: 'rates/index.html' },
   { path: '/contact', file: 'contact/index.html' },
   { path: '/faq', file: 'faq/index.html' },
+  { path: '/404', file: '404.html' },
 ];
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
 
 function replaceOrThrow(out, pattern, replacer, label) {
   if (!pattern.test(out)) throw new Error(`prerender: could not find ${label} in template`);
@@ -48,34 +57,36 @@ function replaceOrThrow(out, pattern, replacer, label) {
 for (const { path, file } of routes) {
   const meta = ROUTE_META[path];
   if (!meta) throw new Error(`prerender: no ROUTE_META for ${path}`);
-  const url = `${SITE_URL}${path}`;
+  const url = escapeHtml(`${SITE_URL}${path}`);
+  const safeTitle = escapeHtml(meta.title);
+  const safeDescription = escapeHtml(meta.description);
 
   const html = await render(path);
   if (html.length < 1000) throw new Error(`prerender: ${path} rendered suspiciously small (${html.length} bytes)`);
 
   let out = template;
-  out = out.replace('<div id="root"></div>', `<div id="root">${html}</div>`);
-  out = replaceOrThrow(out, /<title>[^<]*<\/title>/, () => `<title>${meta.title}</title>`, 'title');
+  out = out.replace('<div id="root"></div>', () => `<div id="root">${html}</div>`);
+  out = replaceOrThrow(out, /<title>[^<]*<\/title>/, () => `<title>${safeTitle}</title>`, 'title');
   out = replaceOrThrow(
     out,
     /(<meta name="description" content=")[^"]*(")/,
-    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
+    (_m, g1, g2) => `${g1}${safeDescription}${g2}`,
     'meta description',
   );
   out = replaceOrThrow(out, /(<link rel="canonical" href=")[^"]*(")/, (_m, g1, g2) => `${g1}${url}${g2}`, 'canonical');
   out = replaceOrThrow(out, /(<meta property="og:url" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${url}${g2}`, 'og:url');
-  out = replaceOrThrow(out, /(<meta property="og:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${meta.title}${g2}`, 'og:title');
+  out = replaceOrThrow(out, /(<meta property="og:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${safeTitle}${g2}`, 'og:title');
   out = replaceOrThrow(
     out,
     /(<meta property="og:description" content=")[^"]*(")/,
-    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
+    (_m, g1, g2) => `${g1}${safeDescription}${g2}`,
     'og:description',
   );
-  out = replaceOrThrow(out, /(<meta name="twitter:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${meta.title}${g2}`, 'twitter:title');
+  out = replaceOrThrow(out, /(<meta name="twitter:title" content=")[^"]*(")/, (_m, g1, g2) => `${g1}${safeTitle}${g2}`, 'twitter:title');
   out = replaceOrThrow(
     out,
     /(<meta name="twitter:description" content=")[^"]*(")/,
-    (_m, g1, g2) => `${g1}${meta.description}${g2}`,
+    (_m, g1, g2) => `${g1}${safeDescription}${g2}`,
     'twitter:description',
   );
 

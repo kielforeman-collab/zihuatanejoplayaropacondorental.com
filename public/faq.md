@@ -22,7 +22,7 @@ Yes: a $350 cleaning fee per week, a $1,000 refundable damage deposit, and a $2,
 
 ## How do I book Casa OM del Sur?
 
-There is no online booking system. Contact host Oscar Mario Sanchez through the inquiry form, by email at info@puntamarinazihuatanejo.com, or by phone or WhatsApp at +52 755 103 6035. Reservations are finalized once your deposit is received.
+There is no online booking system. Contact host Oscar Mario Sanchez by email at info@puntamarinazihuatanejo.com, or by phone or WhatsApp at +52 755 103 6035. Reservations are finalized once your deposit is received.
 
 ## What is the cancellation policy?
 

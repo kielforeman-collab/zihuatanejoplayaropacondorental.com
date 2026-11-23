@@ -25,4 +25,4 @@ Additional charges: $350/week cleaning fee, $1,000 refundable damage deposit, $2
 - Contact the host to check availability. Reservations are finalized upon receipt of deposit.
 - Cancellation, refund, and maximum-guest details are provided with your custom quote.
 - Check-in/out times are flexible by arrangement.
-- There is no online booking system. Contact host Oscar Mario Sanchez: info@puntamarinazihuatanejo.com, +52 755 103 6035 (phone/WhatsApp), or the inquiry form on the [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md) page.
+- There is no online booking system. Contact host Oscar Mario Sanchez: info@puntamarinazihuatanejo.com or +52 755 103 6035 (phone/WhatsApp). See the [Contact](https://www.zihuatanejoplayaropacondorental.com/contact.md) page for details.

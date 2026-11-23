@@ -1,24 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CalendarRange, Info, Check, ShieldCheck, HelpCircle } from 'lucide-react';
+import PageBanner from '../components/PageBanner';
 
 export const Rates: React.FC = () => {
   return (
     <div className="page-rates">
       {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
       <link rel="alternate" type="text/markdown" href="/rates.md" />
-      {/* Banner */}
-      <div 
-        className="page-banner text-white" 
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/1.%20Sunset%20Playa%20Ropa.webp")`
-        }}
-      >
-        <div className="banner-content container">
-          <h1>Rates & Pricing</h1>
-          <h2>Playa La Ropa Condo Rental</h2>
-        </div>
-      </div>
+      <PageBanner
+        image="/images/1. Sunset Playa Ropa.webp"
+        title="Rates & Pricing"
+        subtitle="Playa La Ropa Condo Rental"
+      />
 
       <div className="rates-main container">
         <div className="rates-layout-grid">

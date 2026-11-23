@@ -17,6 +17,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Rates from './pages/Rates';
 import Faq from './pages/Faq';
+import NotFound from './pages/NotFound';
 
 // Per-route document title + meta description. Each route is pre-rendered
 // to its own static HTML file at build time, so the prerender script also
@@ -47,6 +48,10 @@ export const ROUTE_META: Record<string, { title: string; description: string }> 
     description:
       'Answers about renting Casa OM del Sur, a Playa La Ropa vacation rental: weekly rates, minimum stay, deposits, what is included, and how to book.',
   },
+  '/404': {
+    title: 'Page Not Found - Casa OM del Sur',
+    description: 'The requested page could not be found on Casa OM del Sur.',
+  },
 };
 
 export const SITE_URL = 'https://www.zihuatanejoplayaropacondorental.com';
@@ -55,7 +60,7 @@ const RouteMeta: React.FC = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const meta = ROUTE_META[pathname] ?? ROUTE_META['/'];
+    const meta = ROUTE_META[pathname] ?? ROUTE_META['/404'];
     document.title = meta.title;
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute('content', meta.description);
@@ -119,7 +124,7 @@ export const AppShell: React.FC = () => {
             <Route path="/rates" element={<Rates />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/faq" element={<Faq />} />
-            <Route path="*" element={<Home />} /> {/* Fallback route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />

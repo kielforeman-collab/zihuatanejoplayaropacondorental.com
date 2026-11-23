@@ -1,24 +1,17 @@
 import React from 'react';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import ContactForm from '../components/ContactForm';
+import PageBanner from '../components/PageBanner';
 
 export const Contact: React.FC = () => {
   return (
     <div className="page-contact">
       {/* Markdown version of this page (llms.txt v2); React hoists it to <head>. */}
       <link rel="alternate" type="text/markdown" href="/contact.md" />
-      {/* Header Banner */}
-      <div 
-        className="page-banner text-white" 
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/images/1.%20Sunset%20Playa%20Ropa.webp")`
-        }}
-      >
-        <div className="banner-content container">
-          <h1>Contact Us</h1>
-          <h2>Rates, Inquiries & Booking</h2>
-        </div>
-      </div>
+      <PageBanner
+        image="/images/1. Sunset Playa Ropa.webp"
+        title="Contact Us"
+        subtitle="Rates, Inquiries & Booking"
+      />
 
       <div className="contact-main container">
         <div className="contact-layout-grid">
@@ -75,29 +68,29 @@ export const Contact: React.FC = () => {
                 </li>
               </ul>
             </div>
+          </div>
 
-            {/* Google Map Iframe Container */}
+          {/* Map Panel */}
+          <div className="contact-map-panel">
             <div className="contact-map-card glass-panel">
-              <h3>Map Location</h3>
+              <h2 className="panel-title">Map Location</h2>
+              <p className="panel-subtitle">
+                Punta Marina #103 overlooks Playa La Ropa — a 10-minute walk down the hill to the beach.
+              </p>
               <div className="map-iframe-container">
-                <iframe 
+                <iframe
                   title="Punta Marina Location Map"
-                  src="https://maps.google.com/maps?width=100%25&height=400&hl=en&q=Punta Marina 103 Zihuatanejo&ll=17.6235504,-101.5435028&t=&z=14&iwloc=A&ie=UTF8&output=embed" 
-                  width="100%" 
-                  height="100%" 
-                  style={{ border: 0 }} 
+                  src="https://maps.google.com/maps?width=100%25&height=480&hl=en&q=Punta%20Marina%20103%20Zihuatanejo&ll=17.6235504,-101.5435028&t=&z=14&iwloc=A&ie=UTF8&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
                   allowFullScreen={true}
                   loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  sandbox="allow-scripts allow-same-origin allow-popups"
                 ></iframe>
               </div>
             </div>
-          </div>
-
-          {/* Form Panel */}
-          <div className="contact-form-panel">
-            <h2 className="panel-title">Send Us a Message</h2>
-            <p className="panel-subtitle">Fill in the fields below and we'll reply to your booking inquiry as soon as possible.</p>
-            <ContactForm />
           </div>
         </div>
       </div>
